@@ -1,0 +1,12 @@
+[package]
+name = "load_balancer"
+version = "0.1.0"
+authors = ["Denis Michiels <dmichiels@gmail.com>"]
+
+[lib]
+name = "load_balancer"
+crate-type = ["dylib"]
+
+[dependencies]
+capnp = "*"
+rustfbp = { path = "../../../rustfbp" }
