@@ -15,13 +15,12 @@ component! {
     outputs_array(a),
     fn run(&mut self) {
         let mut acc = 0;
-        for (key, val) in &mut (self.inputs_array.numbers) {
-            let m = val.recv().expect("No in input array");
+        for ins in self.ports.get_input_selections("numbers").expect("numbers input port doesn't exist") {
+            let m = self.ports.recv_array("numbers".into(), ins).expect("cannot receive");
             let m: number::Reader = m.get_root().expect("not a date reader");
             let n = m.get_number();
 
             acc += n;
-
         }
 
         let mut new_m = super::capnp::message::Builder::new_default();
@@ -29,7 +28,7 @@ component! {
             let mut number = new_m.init_root::<number::Builder>();
             number.set_number(acc);
         }
-        self.outputs.output.send(&new_m).expect("cannot send date");
+        self.ports.send("output".into(), &new_m).expect("cannot send date");
 
     }
 
