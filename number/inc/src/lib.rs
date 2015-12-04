@@ -14,9 +14,7 @@ component! {
     outputs(output),
     outputs_array(),
     fn run(&mut self) {
-        println!("start inc");
         let m = self.ports.recv("input".into()).expect("cannot receive");
-        println!("have received");
         let m: number::Reader = m.get_root().expect("not a date reader");
 
 
