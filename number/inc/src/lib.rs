@@ -6,7 +6,6 @@ extern crate rustfbp;
 
 use rustfbp::component::*;
 
-
 component! {
     Inc,
     inputs(input),
@@ -14,8 +13,9 @@ component! {
     outputs(output),
     outputs_array(),
     fn run(&mut self) {
-        let m = self.ports.recv("input".into()).expect("cannot receive");
-        let m: number::Reader = m.get_root().expect("not a date reader");
+        let mut ip = self.ports.recv("input".into()).expect("cannot receive");
+        let m = ip.get_reader().expect("cannot get reader");
+        let m: number::Reader = m.get_root().expect("not a number reader");
 
 
         let n = m.get_number();
@@ -24,8 +24,9 @@ component! {
             let mut number = new_m.init_root::<number::Builder>();
             number.set_number(n+1);
         }
-        self.ports.send("output".into(), &new_m).expect("cannot send date");
 
+        ip.write_builder(&new_m);
+        self.ports.send("output".into(), ip).expect("cannot send date");
     }
 
     mod number_capnp {

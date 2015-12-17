@@ -16,7 +16,8 @@ component! {
     fn run(&mut self) {
         let mut acc = 0;
         for ins in self.ports.get_input_selections("numbers").expect("numbers input port doesn't exist") {
-            let m = self.ports.recv_array("numbers".into(), ins).expect("cannot receive");
+            let mut ip = self.ports.recv_array("numbers".into(), ins).expect("cannot receive");
+            let mut m = ip.get_reader().expect("cannot get reader");
             let m: number::Reader = m.get_root().expect("not a date reader");
             let n = m.get_number();
 
@@ -28,7 +29,9 @@ component! {
             let mut number = new_m.init_root::<number::Builder>();
             number.set_number(acc);
         }
-        self.ports.send("output".into(), &new_m).expect("cannot send date");
+        let mut ip = self.allocator.ip.build_empty();
+        ip.write_builder(&new_m).expect("cannot write");
+        self.ports.send("output".into(), ip).expect("cannot send date");
 
     }
 
