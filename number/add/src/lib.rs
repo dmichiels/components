@@ -9,10 +9,12 @@ use rustfbp::component::*;
 
 component! {
     Add,
-    inputs(a),
-    inputs_array(numbers),
-    outputs(output),
-    outputs_array(a),
+    inputs(),
+    inputs_array(numbers: number),
+    outputs(output: number),
+    outputs_array(),
+    option(),
+    acc(),
     fn run(&mut self) {
         let mut acc = 0;
         for ins in self.ports.get_input_selections("numbers").expect("numbers input port doesn't exist") {

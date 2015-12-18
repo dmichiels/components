@@ -1,0 +1,12 @@
+[package]
+name = "nothing"
+version = "0.1.0"
+authors = ["Denis Michiels <dmichiels@gmail.com>"]
+
+[lib]
+name = "nothing"
+crate-type = ["dylib"]
+
+[dependencies]
+capnp = "*"
+rustfbp = { path = "../../../rustfbp" }

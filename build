@@ -1,0 +1,25 @@
+#!/bin/sh
+cd number/inc
+cargo build --release
+cp target/release/libinc.so ../../../rustfbp/tests
+cd ../../
+
+cd number/inc_opt
+cargo build --release
+cp target/release/libinc_opt.so ../../../rustfbp/tests
+cd ../../
+
+cd number/add
+cargo build --release
+cp target/release/libadd.so ../../../rustfbp/tests
+cd ../../
+
+cd ip/load_balancer
+cargo build --release
+cp target/release/libload_balancer.so ../../../rustfbp/tests
+cd ../../
+
+cd ip/nothing
+cargo build --release
+cp target/release/libnothing.so ../../../rustfbp/tests
+cd ../../

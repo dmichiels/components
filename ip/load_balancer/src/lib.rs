@@ -7,15 +7,17 @@ use rustfbp::component::*;
 
 component! {
     LoadBalancer,
-    inputs(input),
+    inputs(input: any),
     inputs_array(),
     outputs(),
-    outputs_array(outputs),
+    outputs_array(outputs: any),
+    option(),
+    acc(number),
     fn run(&mut self) {
         // Find the good output port
         let mut ip_acc = self.ports.recv("acc".into()).unwrap();
         let mut actual = ip_acc.get_reader().expect("cannot get reader");
-        let m: number::Reader = actual.get_root().expect("not a number reader");
+        let m: number::Reader = actual.get_root().expect("lb : not a number reader");
         let mut actual = m.get_number();
 
         let mut list = self.ports.get_output_selections("outputs".into()).expect("cannot get outputs");
